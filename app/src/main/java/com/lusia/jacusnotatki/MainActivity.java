@@ -1,6 +1,7 @@
 package com.lusia.jacusnotatki;
 
 import android.os.Bundle;
+import android.widget.Toast;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -11,6 +12,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import java.util.ArrayList;
+
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +31,30 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://raw.githubusercontent.com/karameler/jacekdatatatytyul/main/db.json")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        JsonPlaceHolderAPI jsonPlaceHolderAPI = retrofit.create(JsonPlaceHolderAPI.class);
+
+        Call<ArrayList<Notatki>> call = jsonPlaceHolderAPI.getNotatki();
+        call.enqueue(new Callback<ArrayList<Notatki>>() {
+            @Override
+            public void onResponse(Call<ArrayList<Notatki>> call, Response<ArrayList<Notatki>> response) {
+
+                if (!response.isSuccessful()){
+                    Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<Notatki>> call, Throwable t) {
+
+            }
+        });
+
         ArrayList<String> slowa = new ArrayList<>();
         ArrayAdapter<String> arrayAdapter;
         ListView listview;
