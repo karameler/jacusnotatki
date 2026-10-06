@@ -55,12 +55,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ArrayList<String> slowa = new ArrayList<>();
-        ArrayAdapter<String> arrayAdapter;
+        ArrayList<Notatki> notatki = new ArrayList<>();
+        ArrayAdapter<Notatki> arrayAdapter;
         ListView listview;
         listview = findViewById(R.id.Listview);
-        slowa.add("cus");
-        arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,slowa);
+        arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,notatki);
         listview.setAdapter(arrayAdapter);
     }
 }

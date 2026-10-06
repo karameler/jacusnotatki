@@ -21,10 +21,9 @@ public class Notatki {
         kal.set(Calendar.YEAR, rok);
     }*/
 
-    public Notatki(String tytulnotatki, Calendar kal, String trescnotatki,int rok,int miesiac, int dzien) {
+    public Notatki(String tytulnotatki, String trescnotatki,int rok,int miesiac, int dzien) {
         this.tytulnotatki = tytulnotatki;
         this.trescnotatki = trescnotatki;
-        this.kal = kal;
         kal.set(Calendar.YEAR, rok);
         kal.set(Calendar.MONTH, miesiac);
         kal.set(Calendar.DAY_OF_MONTH, dzien);
