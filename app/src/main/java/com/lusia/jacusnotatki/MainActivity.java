@@ -21,6 +21,11 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    ArrayList<Notatki> notatki = new ArrayList<>();
+    ArrayAdapter<Notatki> arrayAdapter;
+    ListView listview;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://raw.githubusercontent.com/karameler/jacekdatatatytyul/main/db.json")
+                .baseUrl("https://raw.githubusercontent.com/karameler/jacekdatatatytyul/main/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         JsonPlaceHolderAPI jsonPlaceHolderAPI = retrofit.create(JsonPlaceHolderAPI.class);
@@ -46,6 +51,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
+                listview = findViewById(R.id.Listview);
+                notatki=response.body();
+                arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,notatki);
+                listview.setAdapter(arrayAdapter);
 
 
             }
@@ -55,12 +64,5 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        ArrayList<Notatki> notatki = new ArrayList<>();
-        ArrayAdapter<Notatki> arrayAdapter;
-        ListView listview;
-        listview = findViewById(R.id.Listview);
-        arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,notatki);
-        listview.setAdapter(arrayAdapter);
     }
 }
