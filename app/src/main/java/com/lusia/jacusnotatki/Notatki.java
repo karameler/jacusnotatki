@@ -13,7 +13,7 @@ public class Notatki {
     @SerializedName("tresc")
     public String trescnotatki;
     @SerializedName("data")
-    public Calendar kal = Calendar.getInstance();
+    public String kal;
 
 
 
@@ -21,14 +21,19 @@ public class Notatki {
         kal.set(Calendar.YEAR, rok);
     }*/
 
-    public Notatki(String tytulnotatki, String trescnotatki,int rok,int miesiac, int dzien) {
+    public Notatki(String tytulnotatki, String trescnotatki,String kal) {
         this.tytulnotatki = tytulnotatki;
         this.trescnotatki = trescnotatki;
-        kal.set(Calendar.YEAR, rok);
-        kal.set(Calendar.MONTH, miesiac);
-        kal.set(Calendar.DAY_OF_MONTH, dzien);
+        this.kal = kal;
 
 
+    }
+
+    @Override
+    public String toString() {
+        return "tytulnotatki: " + tytulnotatki + '\'' +
+                ", trescnotatki: " + trescnotatki + '\'' +
+                ", kal: " + kal ;
     }
 
     public Notatki() {

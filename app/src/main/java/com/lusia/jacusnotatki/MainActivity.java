@@ -24,9 +24,9 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
 
-    public ArrayList<Notatki> notatki = new ArrayList<>();
-    private ArrayAdapter<Notatki> arrayAdapter;
-    private ListView listview;
+    ArrayList<Notatki> notatki = new ArrayList<>();
+     ArrayAdapter<Notatki> arrayAdapter;
+     ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +45,6 @@ public class MainActivity extends AppCompatActivity {
         JsonPlaceHolderAPI jsonPlaceHolderAPI = retrofit.create(JsonPlaceHolderAPI.class);
 
         listview = findViewById(R.id.Listview);
-        arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,notatki);
-        listview.setAdapter(arrayAdapter);
         Call<ArrayList<Notatki>> call = jsonPlaceHolderAPI.getNotatki();
         call.enqueue(new Callback<ArrayList<Notatki>>() {
             @Override
@@ -56,13 +54,11 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-/*
-                notatki = response.body();
-                arrayAdapter.notifyDataSetChanged();
-                for(int i =0; i<notatki.size(); i++) {
-                    listview.add()
-                }*/
 
+                notatki = response.body();
+                Toast.makeText(MainActivity.this, "notatki utworzone", Toast.LENGTH_SHORT).show();
+                arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,notatki);
+                listview.setAdapter(arrayAdapter);
 
             }
 
