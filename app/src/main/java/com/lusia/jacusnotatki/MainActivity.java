@@ -1,6 +1,8 @@
 package com.lusia.jacusnotatki;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Toast;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -22,9 +24,9 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
 
-    ArrayList<Notatki> notatki = new ArrayList<>();
-    ArrayAdapter<Notatki> arrayAdapter;
-    ListView listview;
+    public ArrayList<Notatki> notatki = new ArrayList<>();
+    private ArrayAdapter<Notatki> arrayAdapter;
+    private ListView listview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         JsonPlaceHolderAPI jsonPlaceHolderAPI = retrofit.create(JsonPlaceHolderAPI.class);
 
+        listview = findViewById(R.id.Listview);
+        arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,notatki);
+        listview.setAdapter(arrayAdapter);
         Call<ArrayList<Notatki>> call = jsonPlaceHolderAPI.getNotatki();
         call.enqueue(new Callback<ArrayList<Notatki>>() {
             @Override
@@ -51,10 +56,12 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                listview = findViewById(R.id.Listview);
-                notatki=response.body();
-                arrayAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_list_item_1,notatki);
-                listview.setAdapter(arrayAdapter);
+/*
+                notatki = response.body();
+                arrayAdapter.notifyDataSetChanged();
+                for(int i =0; i<notatki.size(); i++) {
+                    listview.add()
+                }*/
 
 
             }
@@ -62,6 +69,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<ArrayList<Notatki>> call, Throwable t) {
 
+            }
+
+
+        });
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                notatki.remove(i);
+                arrayAdapter.notifyDataSetChanged();
             }
         });
     }
